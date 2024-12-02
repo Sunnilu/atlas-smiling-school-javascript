@@ -140,6 +140,31 @@
       </div>
     </header>
     <main class="main">
+      <!-- Quotes Section - dynamically populated -->
+      <section class="quotes section d-flex align-items-center">
+        <div class="container">
+          <!-- Loader, will be shown while data is being fetched -->
+          <div id="loader" class="text-center">
+            <img src="images/loader.gif" alt="Loading..." />
+          </div>
+
+          <!-- Carousel, initially hidden, will be shown once data is fetched -->
+          <div id="quotesCarousel" class="carousel slide" data-ride="carousel" style="display: none;">
+            <div class="carousel-inner" id="carouselInner">
+              <!-- Carousel items will be dynamically added here -->
+            </div>
+            <a class="carousel-control-prev arrow-left" href="#quotesCarousel" role="button" data-slide="prev">
+              <img src="images/arrow_white_left.png" alt="Quote Previous" aria-hidden="true" />
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next arrow-right" href="#quotesCarousel" role="button" data-slide="next">
+              <img src="images/arrow_white_right.png" alt="Quote Next" aria-hidden="true" />
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </section>
+      <!--delete this section below-->
       <section class="quotes section d-flex align-items-center">
         <div class="container">
           <div
@@ -2065,5 +2090,46 @@
         </div>
       </div>
     </footer>
+    <!-- Script for handling dynamic quotes loading -->
+    <script>
+      $(document).ready(function() {
+        // Make AJAX request to fetch quotes
+        $.ajax({
+          url: 'https://smileschool-api.hbtn.info/quotes',
+          method: 'GET',
+          success: function(data) {
+            // Hide loader, show the carousel
+            $('#loader').hide();
+            $('#quotesCarousel').show();
+
+            // Populate carousel with quotes data
+            data.forEach((quote, index) => {
+              const isActive = index === 0 ? 'active' : '';
+              const quoteHtml = `
+                <div class="carousel-item ${isActive}">
+                  <div class="row mx-auto align-items-center">
+                    <div class="col-12 col-sm-2 col-lg-2 offset-lg-1 text-center">
+                      <img src="${quote.pic_url}" class="d-block align-self-center" alt="Person Image" />
+                    </div>
+                    <div class="col-12 col-sm-7 offset-sm-2 col-lg-9 offset-lg-0">
+                      <div class="quote-text">
+                        <p class="text-white">« ${quote.text} »</p>
+                        <h4 class="text-white font-weight-bold">${quote.name}</h4>
+                        <span class="text-white">${quote.title}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+              // Append each quote to the carousel
+              $('#carouselInner').append(quoteHtml);
+            });
+          },
+          error: function() {
+            $('#loader').html('<p class="text-white">Failed to load quotes. Please try again later.</p>');
+          }
+        });
+      });
+    </script>
   </body>
 </html>
