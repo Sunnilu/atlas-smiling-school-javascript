@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="font-style.css" />
     <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
     <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
     <link
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap"
       rel="stylesheet"
@@ -2131,5 +2132,23 @@
         });
       });
     </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+    $('.quotes-container').slick({
+      dots: true,
+      infinite: true,
+      speed: 300,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      centerMode: false,
+      adaptiveHeight: true
+    });
+  });
+</script>
+
+
   </body>
 </html>
